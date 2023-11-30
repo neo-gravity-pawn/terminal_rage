@@ -36,5 +36,14 @@
 * enter room + name &rarr; send: NAME, ROOM_ID, retreive: PLAYER_ID (used to perform all subsequent communication)
 * general: state is changed via setFunctions, state is broadcasted completely, renderer should change based on state, chat and game should have decoupled states, chat should have a max. state size (e.g. clamp old messages)
 * setFunctions that are invalid sould lead to resend of valid state + error message
+* each message needs to contain room id and player id for relaying messages
 * internally:
+  * outer layer: webserver
+    * provides frontend as static file serve
+    * provides websocket to which the frontend(s) can connect
+    * holds all websocket connections
+    * if a player connects to a room, checks if a gameserver instance with this id is present, if not, creates one, otherwise relays messages to this server
+    * if a player disconnects, announces to server that player is gone (should lead to game reset to room - maybe "rage quit" message)
+  * 2nd layer: gameserver
+    * 
   * game server: input: functions, output: stateobservable
