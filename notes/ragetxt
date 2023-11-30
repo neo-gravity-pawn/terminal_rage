@@ -1,0 +1,40 @@
+### Game Loop
+
+* Start Screen
+  * user navigates to page, sees a title screen and the option to enter a room or create a room
+  * enter a room
+    * enter room id, enter name
+    * if the id is valid and the game in this room has not started yet
+      * enters room
+    * else
+      * error message
+  * create a room
+    * enter name, enters room
+* Room Screen
+  * users in room are shown
+  * user can set their state to ready
+  * users can exit room
+  * if enough players are in room, and all players are ready the game starts
+* Game
+  * Phase 1: trick declaration
+    * shown are: current hand, player scoreboard + declared tricks
+    * player enter their trick number into prompt wait for all players
+  * Phase 2: main round
+    * shown are: current hand, current trick with highest card and player of this card, player scoreboard + declared tricks + # of tricks
+    * if its their turn, the can select a card and add it to the current trick
+  * Phase 3: counting
+    * shown are: updated score board
+  * End phase
+    * winner declaration
+    * on exit, go back to room screen
+* Chat
+  * should be available in room and game
+
+### Technology
+
+* websockets
+* enter room + name &rarr; send: NAME, ROOM_ID, retreive: PLAYER_ID (used to perform all subsequent communication)
+* general: state is changed via setFunctions, state is broadcasted completely, renderer should change based on state, chat and game should have decoupled states, chat should have a max. state size (e.g. clamp old messages)
+* setFunctions that are invalid sould lead to resend of valid state + error message
+* internally:
+  * game server: input: functions, output: stateobservable
